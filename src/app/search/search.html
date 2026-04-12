@@ -1,1 +1,18 @@
-<p>search works!</p>
+<div>
+  <input type="text" [(ngModel)]="searchTitle" placeholder="Search for a book..." />
+  <button (click)="searchBooks()">Search</button>
+</div>
+
+@if (bookService.items().length > 0) {
+  <p>{{ bookService.items().length }} results found</p>
+  @for (book of bookService.items(); track book.key) {
+    <div>
+      <p><strong>{{ book.title }}</strong></p>
+      <p>{{ book.author_name }}</p>
+      <p>{{ book.first_publish_year }}</p>
+      <button (click)="addToFavourites(book)">+ Add to Favourites</button>
+    </div>
+  }
+} @else {
+  <p>No results yet. Search for a book above.</p>
+}
