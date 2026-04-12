@@ -1,1 +1,17 @@
-<p>favourites works!</p>
+<div>
+  <h2>My Favourites</h2>
+
+  @if (bookService.favourites().length > 0) {
+    <p>{{ bookService.favourites().length }} saved books</p>
+    @for (book of bookService.favourites(); track book._id) {
+      <div>
+        <p><strong>{{ book.title }}</strong></p>
+        <p>{{ book.author_name }}</p>
+        <p>{{ book.first_publish_year }}</p>
+        <button (click)="deleteBook(book._id)">Remove</button>
+      </div>
+    }
+  } @else {
+    <p>No favourites yet. Search for a book and add it!</p>
+  }
+</div>

@@ -33,7 +33,7 @@ export class Booksapi {
 
   // get all favourites from MongoDB
   getFavourites() {
-    const url = 'http://localhost:5050/favourites';
+    const url = 'http://localhost:5050/books';
     this._http.get<Book[]>(url)
       .subscribe(data => {
         this.favourites.set(data);
@@ -42,7 +42,7 @@ export class Booksapi {
 
   // delete book by id
   deleteItem(myId: string) {
-    const url = 'http://localhost:5050/favourites/' + myId;
+    const url = 'http://localhost:5050/books/' + myId;
     this._http.delete(url)
       .subscribe(() => {
         this.getFavourites();

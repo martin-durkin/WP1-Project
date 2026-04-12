@@ -27,13 +27,12 @@ router.post("/", async (req, res) => {
   let newDocument = req.body;
   newDocument.date = new Date();
   let result = await collection.insertOne(newDocument);
-  res.send(result).status(204);
+  res.status(204).send(result);
 });
 
 // Delete a favourite by id
 router.delete("/:id", async (req, res) => {
   let id = req.params.id;
-  console.log("del : " + id);
   const query = { _id: ObjectId(id) };
   const collection = db.collection("books");
   let result = await collection.deleteOne(query);
