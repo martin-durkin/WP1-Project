@@ -12,20 +12,47 @@ import { FormsModule } from '@angular/forms';
 export class Search {
   bookService = inject(Booksapi);
   searchTitle = '';
+  addedBooks = new Set<string>();
+  searchError = '';
 
-  searchBooks() {
-    if (this.searchTitle.trim()) {
-      this.bookService.getItems(this.searchTitle);
-    }
+  constructor() {
+    this.bookService.getFavourites();
   }
 
+  currentPage = 1;
+ searchBooks() {
+  if (this.searchTitle.trim()) {
+    this.searchError = '';
+    this.currentPage = 1;
+    this.bookService.getItems(this.searchTitle, this.currentPage);
+  } else {
+    this.searchError = 'Please enter a book title to search.';
+  }
+}
+
+nextPage() {
+  this.currentPage++;
+  this.bookService.getItems(this.searchTitle, this.currentPage);
+}
+
+prevPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.bookService.getItems(this.searchTitle, this.currentPage);
+  }
+}
+
   addToFavourites(book: Book) {
-    this.bookService.addItem(
-      book.title,
-      book.author_name,
-      book.first_publish_year,
-      book.cover_i,
-      book.key
-    );
+    const alreadySaved = this.bookService.favourites().some(f => f.key === book.key);
+    if (!alreadySaved) {
+      this.bookService.addItem(
+        book.title,
+        book.author_name,
+        book.first_publish_year,
+        book.cover_i,
+        book.key
+      );
+    }
+    this.addedBooks.add(book.key);
   }
 }

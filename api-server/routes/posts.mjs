@@ -4,10 +4,10 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// Search Open Library API by title
 router.get("/search", async (req, res) => {
   const title = req.query.title;
-  const response = await fetch(`https://openlibrary.org/search.json?title=${title}&limit=10`);
+  const page = req.query.page || 1;
+  const response = await fetch(`https://openlibrary.org/search.json?title=${title}&limit=10&page=${page}`);
   const data = await response.json();
   res.send(data.docs).status(200);
 });

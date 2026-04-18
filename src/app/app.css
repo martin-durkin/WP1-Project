@@ -1,0 +1,15 @@
+nav {
+  background-color: #1a3c6e;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-size: 1.8rem;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  letter-spacing: 2px;
+}

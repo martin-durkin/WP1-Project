@@ -13,13 +13,13 @@ export class Booksapi {
   favourites = signal<Book[]>([]);
 
   // search books from Open Library via Express
-  getItems(title: string) {
-    const url = `${this._apiUrl}/search?title=${title}`;
-    this._http.get<any[]>(url)
-      .subscribe(data => {
-        this.items.set(data);
-      });
-  }
+   getItems(title: string, page: number = 1) {
+  const url = `${this._apiUrl}/search?title=${title}&page=${page}`;
+  this._http.get<any>(url)
+    .subscribe(data => {
+      this.items.set(data);
+    });
+}
 
   // add one book to favourites
   addItem(title: string, author_name: string[], first_publish_year: string, cover_i: string, key: string) {

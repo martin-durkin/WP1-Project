@@ -1,18 +1,54 @@
-<div>
-  <input type="text" [(ngModel)]="searchTitle" placeholder="Search for a book..." />
-  <button (click)="searchBooks()">Search</button>
+<div class="row justify-content-center mb-4">
+  <div class="col-md-6">
+    <div class="input-group">
+      <input 
+        type="text" 
+        class="form-control" 
+        [(ngModel)]="searchTitle" 
+        placeholder="Search for a book by title..."
+      />
+      <button class="btn btn-primary" (click)="searchBooks()">Search</button>
+    </div>
+    @if (searchError) {
+      <p class="text-danger mt-2">{{ searchError }}</p>
+    }
+  </div>
 </div>
 
 @if (bookService.items().length > 0) {
   <p>{{ bookService.items().length }} results found</p>
-  @for (book of bookService.items(); track book.key) {
-    <div>
-      <p><strong>{{ book.title }}</strong></p>
-      <p>{{ book.author_name }}</p>
-      <p>{{ book.first_publish_year }}</p>
-      <button (click)="addToFavourites(book)">+ Add to Favourites</button>
-    </div>
-  }
+  <div class="row">
+    @for (book of bookService.items(); track book.key) {
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            @if (book.cover_i) {
+              <img src="https://covers.openlibrary.org/b/id/{{book.cover_i}}-M.jpg" alt="cover" class="mb-2" />
+            }
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p>{{ book.author_name }}</p>
+            <p>{{ book.first_publish_year }}</p>
+            <button 
+              class="btn btn-sm mt-2"
+              [class.btn-success]="!addedBooks.has(book.key)"
+              [class.btn-secondary]="addedBooks.has(book.key)"
+              [disabled]="addedBooks.has(book.key)"
+              (click)="addToFavourites(book)">
+              {{ addedBooks.has(book.key) ? 'Added to favourites!' : '+ Add to Favourites' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="d-flex justify-content-center gap-3 mt-4">
+    <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="currentPage === 1">← Previous</button>
+    <span class="align-self-center">Page {{ currentPage }}</span>
+    <button class="btn btn-outline-primary" (click)="nextPage()">Next →</button>
+  </div>
 } @else {
-  <p>No results yet. Search for a book above.</p>
+  <div class="text-center mt-5">
+    <h4>No results found</h4>
+    <p>Try searching for a different book title</p>
+  </div>
 }
