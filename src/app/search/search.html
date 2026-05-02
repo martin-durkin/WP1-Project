@@ -47,8 +47,12 @@
     <button class="btn btn-outline-primary" (click)="nextPage()">Next →</button>
   </div>
 } @else {
-  <div class="text-center mt-5">
+  @if (hasSearched){
+
+    <div class="text-center mt-5">
     <h4>No results found</h4>
     <p>Try searching for a different book title</p>
   </div>
+  }
+  
 }

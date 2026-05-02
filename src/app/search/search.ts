@@ -14,6 +14,7 @@ export class Search {
   searchTitle = '';
   addedBooks = new Set<string>();
   searchError = '';
+  hasSearched = false;
 
   constructor() {
     this.bookService.getFavourites();
@@ -23,6 +24,7 @@ export class Search {
  searchBooks() {
   if (this.searchTitle.trim()) {
     this.searchError = '';
+    this.hasSearched = true;
     this.currentPage = 1;
     this.bookService.getItems(this.searchTitle, this.currentPage);
   } else {
